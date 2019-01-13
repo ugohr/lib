@@ -12,25 +12,27 @@
 
 #include "libft.h"
 
+/*
+ ** append src at the end of dst, at most size - strlen(dst) - 1 bytes
+*/
+
 size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
-	size_t	slen;
-	size_t	dlen;
+	size_t i;
+	size_t len;
 
-	slen = ft_strlen(src);
-	dlen = ft_strlen(dst);
-	if (size <= dlen)
-		return (size + slen);
-	if (slen < (size - dlen))
+	i = 0;
+	while (dst[i] && i < size)
+		i++;
+	len = i;
+	if (i == size)
+		return (len + ft_strlen(src));
+	while (src[i - len] && i < size - 1)
 	{
-		ft_memcpy(dst + dlen, src, slen);
-		dst = dst + dlen + slen;
+		dst[i] = src[i - len];
+		i++;
 	}
-	else
-	{
-		ft_memcpy(dst + dlen, src, size - dlen - 1);
-		dst = dst + size - 1;
-	}
-	*dst = '\0';
-	return (dlen + slen);
+	if (len < size)
+		dst[i] = '\0';
+	return (len + ft_strlen(src));
 }
